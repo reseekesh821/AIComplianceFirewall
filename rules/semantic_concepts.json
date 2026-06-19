@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "concepts": [
+    {
+      "id": "semantic_guaranteed_returns",
+      "concept": "Guaranteed Returns",
+      "category": "FINRA",
+      "action": "APPEND",
+      "phrases": [
+        "You cannot lose money on this investment",
+        "This fund always profits with no downside",
+        "Earn returns with certainty and no losses",
+        "Every investor gets paid back with profit guaranteed"
+      ]
+    },
+    {
+      "id": "semantic_risk_free",
+      "concept": "Risk-Free Investment",
+      "category": "FINRA",
+      "action": "APPEND",
+      "phrases": [
+        "Completely safe investment with no chance of loss",
+        "Put your money in with zero downside risk",
+        "This opportunity has no financial risk at all",
+        "Invest without worrying about losing anything"
+      ]
+    },
+    {
+      "id": "semantic_guaranteed_cure",
+      "concept": "Guaranteed Cure",
+      "category": "HEALTHCARE",
+      "action": "BLOCK",
+      "phrases": [
+        "This treatment will definitely cure your disease",
+        "Take this pill and your illness will be gone forever",
+        "Permanent healing with no chance of relapse",
+        "Clinically proven to cure all symptoms completely"
+      ]
+    },
+    {
+      "id": "semantic_definitive_diagnosis",
+      "concept": "Definitive Diagnosis",
+      "category": "HEALTHCARE",
+      "action": "REDACT",
+      "phrases": [
+        "Based on your symptoms you definitely have diabetes",
+        "The clear diagnosis is cancer without further tests",
+        "You certainly have this condition and nothing else",
+        "I can confirm your disease with complete certainty"
+      ]
+    }
+  ]
+}

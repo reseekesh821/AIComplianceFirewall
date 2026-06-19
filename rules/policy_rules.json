@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-06-18",
+  "rules": [
+    {
+      "id": "finra_guaranteed_return",
+      "pattern": "(?i)guarantee.*return",
+      "concept": "Guaranteed Returns",
+      "category": "FINRA",
+      "action": "APPEND"
+    },
+    {
+      "id": "finra_promise_money",
+      "pattern": "(?i)promise.*make\\s*money",
+      "concept": "Guaranteed Returns",
+      "category": "FINRA",
+      "action": "APPEND"
+    },
+    {
+      "id": "finra_zero_risk",
+      "pattern": "(?i)zero\\s*risk",
+      "concept": "Risk-Free Investment",
+      "category": "FINRA",
+      "action": "APPEND"
+    },
+    {
+      "id": "finra_100_safe",
+      "pattern": "(?i)100%\\s*safe",
+      "concept": "Risk-Free Investment",
+      "category": "FINRA",
+      "action": "APPEND"
+    },
+    {
+      "id": "healthcare_guaranteed_cure",
+      "pattern": "(?i)guarantee.*cure",
+      "concept": "Guaranteed Cure",
+      "category": "HEALTHCARE",
+      "action": "BLOCK"
+    },
+    {
+      "id": "healthcare_absolute_cure",
+      "pattern": "(?i)absolute.*cure",
+      "concept": "Guaranteed Cure",
+      "category": "HEALTHCARE",
+      "action": "BLOCK"
+    },
+    {
+      "id": "healthcare_absolute_healing",
+      "pattern": "(?i)absolute.*healing",
+      "concept": "Guaranteed Cure",
+      "category": "HEALTHCARE",
+      "action": "BLOCK"
+    },
+    {
+      "id": "healthcare_definitive_diagnosis",
+      "pattern": "(?i)definitive.*diagnosis",
+      "concept": "Definitive Diagnosis",
+      "category": "HEALTHCARE",
+      "action": "REDACT"
+    }
+  ]
+}
