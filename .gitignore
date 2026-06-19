@@ -63,6 +63,7 @@ coverage.xml
 .env
 compliance.db
 .sesskey
+EXTERNAL.md
 
 # Sphinx documentation
 docs/_build/
@@ -75,6 +76,3 @@ docs/_build/
 
 # Pyenv
 .python-version
-
-
-gitEXTERNAL.md
