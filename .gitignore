@@ -63,7 +63,7 @@ coverage.xml
 .env
 compliance.db
 .sesskey
-EXTERNAL.md
+external.md
 
 # Sphinx documentation
 docs/_build/
