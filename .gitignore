@@ -76,5 +76,5 @@ docs/_build/
 # Pyenv
 .python-version
 
-##external
+#external
 EXTERNAL.md
