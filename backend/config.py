@@ -1,9 +1,23 @@
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
+_BACKEND_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _BACKEND_DIR.parent
+
+
+def _env_path(name: str, default: Path) -> str:
+    raw = os.getenv(name)
+    if not raw:
+        return str(default)
+    path = Path(raw)
+    if path.is_absolute():
+        return str(path)
+    return str((_PROJECT_ROOT / path).resolve())
 
 
 @dataclass(frozen=True)
@@ -33,8 +47,8 @@ def get_settings() -> Settings:
         neo4j_uri=os.getenv("NEO4J_URI", "neo4j://localhost:7687"),
         neo4j_user=os.getenv("NEO4J_USER", "neo4j"),
         neo4j_password=os.getenv("NEO4J_PASSWORD", "testpassword123"),
-        sqlite_file=os.getenv("SQLITE_FILE", "compliance.db"),
-        rules_file=os.getenv("RULES_FILE", "rules/policy_rules.json"),
+        sqlite_file=_env_path("SQLITE_FILE", _PROJECT_ROOT / "compliance.db"),
+        rules_file=_env_path("RULES_FILE", _BACKEND_DIR / "rules" / "policy_rules.json"),
         ollama_url=os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate"),
         ollama_model=os.getenv("OLLAMA_MODEL", "llama3.1:8b"),
         llm_provider=os.getenv("LLM_PROVIDER", "ollama").lower(),
@@ -42,8 +56,9 @@ def get_settings() -> Settings:
         semantic_enabled=os.getenv("SEMANTIC_ENABLED", "true").lower() == "true",
         semantic_provider=os.getenv("SEMANTIC_PROVIDER", "ollama").lower(),
         semantic_threshold=float(os.getenv("SEMANTIC_THRESHOLD", "0.82")),
-        semantic_concepts_file=os.getenv(
-            "SEMANTIC_CONCEPTS_FILE", "rules/semantic_concepts.json"
+        semantic_concepts_file=_env_path(
+            "SEMANTIC_CONCEPTS_FILE",
+            _BACKEND_DIR / "rules" / "semantic_concepts.json",
         ),
         ollama_embed_url=os.getenv(
             "OLLAMA_EMBED_URL", "http://localhost:11434/api/embeddings"

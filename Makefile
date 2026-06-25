@@ -4,16 +4,16 @@ neo4j:
 \tdocker compose up -d neo4j
 
 graph:
-\tpython build_graph.py
+\tpython scripts/build_graph.py
 
 rust:
 \tmaturin develop
 
 api:
-\tuvicorn main:app --reload --host $(API_HOST) --port $(API_PORT)
+\tcd backend && uvicorn main:app --reload --host $(API_HOST) --port $(API_PORT)
 
 ui:
-\tpython app.py
+\tpython ui/app.py
 
 test:
 \tpytest -q

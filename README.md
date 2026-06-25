@@ -30,7 +30,7 @@ Neo4j appends disclaimers when needed → SQLite logs the event
 
 Output enforcement always wins over prompt-only flags.
 
-The app runs as two processes: a **FastAPI** backend (`main.py` on port 8000) and a **FastHTML** admin UI (`app.py` on port 5001) that talks to it.
+The app runs as two processes: a **FastAPI** backend (`backend/main.py` on port 8000) and a **FastHTML** admin UI (`ui/app.py` on port 5001) that talks to it.
 
 ## What I used
 
@@ -40,7 +40,7 @@ The app runs as two processes: a **FastAPI** backend (`main.py` on port 8000) an
 | Admin UI | FastHTML, Tailwind CSS, HTMX, Lucide icons |
 | LLM | **Ollama** — `llama3.1:8b` for text generation |
 | Semantic detection | **Ollama** — `nomic-embed-text` embeddings, cosine similarity against phrase lists |
-| Regex rules | Editable JSON in `rules/policy_rules.json` |
+| Regex rules | Editable JSON in `backend/rules/policy_rules.json` |
 | Rule engine (optional) | Rust + PyO3 (`src/lib.rs`), built with maturin |
 | Knowledge graph | Neo4j 5 (Docker) — disclaimer text linked to restricted concepts |
 | Audit log | SQLite (`compliance.db`) with CSV export |
@@ -58,11 +58,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the project root (see `config.py` for all variables). At minimum you need Neo4j credentials and the Ollama model names — the defaults match the setup below.
+Create a `.env` file in the project root (see `backend/config.py` for all variables). At minimum you need Neo4j credentials and the Ollama model names — the defaults match the setup below.
 
 ```bash
 docker compose up -d neo4j
-python build_graph.py
+python scripts/build_graph.py
 
 ollama pull llama3.1:8b
 ollama pull nomic-embed-text
@@ -72,10 +72,10 @@ Two terminals:
 
 ```bash
 # Terminal 1 — API
-uvicorn main:app --reload
+cd backend && uvicorn main:app --reload
 
 # Terminal 2 — UI
-python app.py
+python ui/app.py
 ```
 
 Open **http://localhost:5001**. The dashboard shows system status; **Live Scan** is the quickest way to try prompts.
@@ -112,7 +112,7 @@ Drop `llm_output` and the middleware calls Ollama first, then scans what comes b
 
 > This fund always profits with no downside — you cannot lose money on it.
 
-Regex alone won't catch that. The embedding layer compares it against phrases in `rules/semantic_concepts.json` and flags it as a guaranteed-returns claim.
+Regex alone won't catch that. The embedding layer compares it against phrases in `backend/rules/semantic_concepts.json` and flags it as a guaranteed-returns claim.
 
 **Clean prompt** — should pass:
 
@@ -123,17 +123,20 @@ The Live Scan page has preset scenarios for all of these.
 ## Project layout
 
 ```
-main.py              FastAPI — /v1/guard, audit, rules admin
-app.py               Admin UI (Dashboard, Live Scan, Audit, Policies, Rules)
-guard_service.py     Guard pipeline — LLM → scan → policy → disclaimers
-scanner.py           Regex rules + semantic merge
-semantic.py          Ollama embedding similarity scanner
-policy.py            Policy engine (prompt vs output tiers)
-llm.py               Ollama text generation
-rules/               Regex rules + semantic phrase lists
-build_graph.py       Seeds Neo4j with frameworks and disclaimers
+backend/
+  main.py            FastAPI — /v1/guard, audit, rules admin
+  guard_service.py   Guard pipeline — LLM → scan → policy → disclaimers
+  scanner.py         Regex rules + semantic merge
+  semantic.py        Ollama embedding similarity scanner
+  policy.py          Policy engine (prompt vs output tiers)
+  llm.py             Ollama text generation
+  rules/             Regex rules + semantic phrase lists
+ui/
+  app.py             Admin UI (Dashboard, Live Scan, Audit, Policies, Rules)
+  static/            UI assets
+scripts/
+  build_graph.py     Seeds Neo4j with frameworks and disclaimers
 src/lib.rs           Rust regex engine (optional, via PyO3)
-static/              UI assets
 tests/               Pytest suite
 ```
 

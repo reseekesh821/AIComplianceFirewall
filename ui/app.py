@@ -20,6 +20,7 @@ APP_CSS = Link(rel="stylesheet", href="/static/app.css")
 
 app, rt = fast_app(
     pico=False,
+    static_path=str(Path(__file__).resolve().parent),
     hdrs=(
         TAILWIND,
         LUCIDE,
@@ -739,7 +740,7 @@ def rules_page():
         )
 
     note = (
-        "Rules are loaded from rules/policy_rules.json. Edit via PUT /admin/rules when USE_RUST_ENGINE=false."
+        "Rules are loaded from backend/rules/policy_rules.json. Edit via PUT /admin/rules when USE_RUST_ENGINE=false."
         if engine == "json"
         else "Rust engine active — recompile with maturin develop to change rules."
     )

@@ -4,10 +4,12 @@ import pytest
 
 from config import Settings
 
+_BACKEND_RULES = Path(__file__).resolve().parent.parent / "backend" / "rules"
+
 
 @pytest.fixture
 def rules_path(tmp_path):
-    src = Path("rules/policy_rules.json")
+    src = _BACKEND_RULES / "policy_rules.json"
     dest = tmp_path / "policy_rules.json"
     dest.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
     return dest
@@ -15,7 +17,7 @@ def rules_path(tmp_path):
 
 @pytest.fixture
 def semantic_path(tmp_path):
-    src = Path("rules/semantic_concepts.json")
+    src = _BACKEND_RULES / "semantic_concepts.json"
     dest = tmp_path / "semantic_concepts.json"
     dest.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
     return dest
