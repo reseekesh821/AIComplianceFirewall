@@ -194,7 +194,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Neuro-Symbolic Compliance Middleware",
-    description="Enterprise LLM output guardrail — scan, enforce, audit.",
+    description="LLM output guardrail — scan, enforce, audit.",
     lifespan=lifespan,
 )
 
@@ -253,7 +253,7 @@ def _execute_guard(request: GuardRequest, settings: Settings) -> GuardResponse:
 
 @app.post("/v1/guard", response_model=GuardResponse)
 def guard_v1(request: GuardRequest, _: None = Depends(require_api_key)):
-    """Enterprise middleware: pass prompt only, or prompt + pre-generated LLM output."""
+    """Pass prompt only, or prompt + pre-generated LLM output."""
     settings = get_settings()
     return _execute_guard(request, settings)
 
